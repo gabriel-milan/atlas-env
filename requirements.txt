@@ -11,3 +11,4 @@ flask-login
 future
 tensorflow
 Gaugi
+ipykernel
