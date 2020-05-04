@@ -6,11 +6,16 @@ VENV_NAME="atlas_env"
 virtualenv $VENV_NAME
 
 # Installing PyPI packages
-./$VENV_NAME/bin/pip install -r requirements.txt
+./$VENV_NAME/bin/pip install -U pip
+./$VENV_NAME/bin/pip install -U -r requirements.txt
 
-# Adding saphyra
+# Adding saphyra, ringerdb and kolmov
 cd $VENV_NAME
 git clone https://github.com/jodafons/saphyra
+cd saphyra
+chmod a+x setup.sh
+./setup.sh
+cd ..
 cd lib/*/*/
 ln -s ../../../saphyra/saphyra/python saphyra
 ln -s ../../../saphyra/external/ringerdb/python ringerdb

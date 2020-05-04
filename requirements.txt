@@ -1,5 +1,10 @@
 scipy
 otools
+pandas
+matplotlib
+seaborn
+nltk
+spacy
 sklearn
 keras
 sqlalchemy
