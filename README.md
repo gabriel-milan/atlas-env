@@ -22,4 +22,10 @@ options:
 --prometheus              install the Prometheus framework
 ```
 
-Cheers!
+And then all you have to do is
+
+```
+source atlas_env/bin/activate
+```
+
+And you're done!
