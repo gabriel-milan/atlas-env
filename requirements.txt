@@ -14,6 +14,6 @@ psycopg2-binary
 benedict
 flask-login
 future
-tensorflow
+tensorflow==2.1.0
 Gaugi
 ipykernel
