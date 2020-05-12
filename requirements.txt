@@ -17,3 +17,4 @@ future
 tensorflow==2.1.0
 Gaugi
 ipykernel
+lofo-importance
