@@ -91,16 +91,7 @@ fi
 # Adding saphyra, ringerdb and kolmov
 if [ "$INSTALL_SAPHYRA" = true ] ; then
   echo "--> Installing Saphyra..."
-  cd $VENV_NAME
-  git clone https://github.com/jodafons/saphyra
-  cd saphyra
-  chmod a+x setup.sh
-  ./setup.sh
-  cd ..
-  cd lib/*/*/
-  ln -s ../../../saphyra/saphyra/python saphyra
-  ln -s ../../../saphyra/external/ringerdb/python ringerdb
-  ln -s ../../../saphyra/external/kolmov/kolmov/python kolmov
+  ./$VENV_NAME/bin/pip install -U saphyra
 fi
 
 # Adding ROOT
