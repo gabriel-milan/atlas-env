@@ -56,6 +56,12 @@ while test $# -gt 0; do
       INSTALL_PROMETHEUS=true
       shift
       ;;
+    --kolmov)
+      echo "--> Will install kolmov"
+      START=true
+      INSTALL_KOLMOV=true
+      shift
+      ;;
     *)
       break
       ;;
@@ -76,6 +82,7 @@ else
   echo "--raw                     generates a raw virtual environment"
   echo "--pip                     installs pip packages on requirements.txt"
   echo "--saphyra                 installs the Saphyra framework"
+  echo "--kolmov                  installs the Kolmov framework"
   echo "--root                    installs ROOT framework"
   echo "--prometheus              install the Prometheus framework"
   exit 0
@@ -88,10 +95,16 @@ if [ "$INSTALL_PIP" = true ] ; then
   ./$VENV_NAME/bin/pip install -U -r requirements.txt
 fi
 
-# Adding saphyra, ringerdb and kolmov
+# Adding saphyra
 if [ "$INSTALL_SAPHYRA" = true ] ; then
   echo "--> Installing Saphyra..."
   ./$VENV_NAME/bin/pip install -U saphyra
+fi
+
+# Adding kolmov
+if [ "$INSTALL_KOLMOV" = true ] ; then
+  echo "--> Installing Kolmov..."
+  ./$VENV_NAME/bin/pip install -U kolmov
 fi
 
 # Adding ROOT
