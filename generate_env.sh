@@ -71,7 +71,7 @@ done
 # Creating virtual environment
 if [ "$START" = true ] ; then
   echo "--> Creating virtual environment..."
-  virtualenv $VENV_NAME
+  virtualenv $VENV_NAME --python=python3
 else
   echo "generate_envs.sh - Script for virtualenv generation for ATLAS/Ringer users"
   echo " "
