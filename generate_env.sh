@@ -115,7 +115,7 @@ if [ "$INSTALL_ROOT" = true ] ; then
   wget https://github.com/Kitware/CMake/releases/download/v$CMAKE_VERSION/cmake-$CMAKE_VERSION-Linux-x86_64.sh -P /usr/
   chmod 755 /usr/cmake-$CMAKE_VERSION-Linux-x86_64.sh
   cd /usr && ./cmake-$CMAKE_VERSION-Linux-x86_64.sh --skip-license
-  cd $INITIAL_DIR && cd $VENV_NAME && git clone https://github.com/root-project/root.git
+  cd $INITIAL_DIR && cd $VENV_NAME && git clone https://github.com/root-project/root.git && git checkout v6-20-00-patches
   cd root/ && mkdir build
   cd build/ && cmake -DPYTHON_EXECUTABLE=../../bin/python3 -Dpython3=ON -Dpython_version=3 ..
   make -j$CPU_N
