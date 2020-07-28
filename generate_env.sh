@@ -115,9 +115,9 @@ if [ "$INSTALL_ROOT" = true ] ; then
   wget https://github.com/Kitware/CMake/releases/download/v$CMAKE_VERSION/cmake-$CMAKE_VERSION-Linux-x86_64.sh -P /usr/
   chmod 755 /usr/cmake-$CMAKE_VERSION-Linux-x86_64.sh
   cd /usr && ./cmake-$CMAKE_VERSION-Linux-x86_64.sh --skip-license
-  cd $INITIAL_DIR && cd $VENV_NAME && git clone https://gitlab.cern.ch/jodafons/root.git
-  cd root/ && git checkout v6-16-00
-  cd build && cmake -DPYTHON_EXECUTABLE=../../bin/python3 -Dpython3=ON -Dpython_version=3 ..
+  cd $INITIAL_DIR && cd $VENV_NAME && git clone https://github.com/root-project/root.git
+  cd root/ && mkdir build
+  cd build/ && cmake -DPYTHON_EXECUTABLE=../../bin/python3 -Dpython3=ON -Dpython_version=3 ..
   make -j$CPU_N
   cd lib
   cp -r * ../../../lib/*/*/.
