@@ -115,7 +115,7 @@ if [ "$INSTALL_ROOT" = true ] ; then
   wget https://github.com/Kitware/CMake/releases/download/v$CMAKE_VERSION/cmake-$CMAKE_VERSION-Linux-x86_64.sh -P /usr/
   chmod 755 /usr/cmake-$CMAKE_VERSION-Linux-x86_64.sh
   cd /usr && ./cmake-$CMAKE_VERSION-Linux-x86_64.sh --skip-license
-  cd $INITIAL_DIR && cd $VENV_NAME && wget https://root.cern/download/root_v6.22.00.source.tar.gz && tar -xzfv root_v6.22.00.source.tar.gz && rm root_v6.22.00.source.tar.gz
+  cd $INITIAL_DIR && cd $VENV_NAME && wget https://root.cern/download/root_v6.22.00.source.tar.gz && tar xfv root_v6.22.00.source.tar.gz && rm root_v6.22.00.source.tar.gz
   cd root/ && mkdir build
   cd build/ && cmake -DPYTHON_EXECUTABLE=../../bin/python3 -Dpython3=ON -Dpython_version=3 ..
   make -j$CPU_N
