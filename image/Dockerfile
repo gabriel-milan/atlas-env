@@ -1,0 +1,22 @@
+FROM ubuntu:bionic
+
+LABEL MAINTAINER Gabriel Gazola Milan <gabriel.milan@lps.ufrj.br>
+
+USER root
+SHELL [ "/bin/bash", "-c" ]
+RUN rm /bin/sh && ln -s /bin/bash /bin/sh
+
+ENV LC_ALL C.UTF-8
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV TERM screen
+
+# Install requirements
+RUN apt-get update && apt-get upgrade -y && apt-get install -y python3 python3-pip git
+
+# ATLAS kernel
+RUN python3 -m pip install --upgrade pip
+RUN python3 -m pip install -U virtualenv soundfile
+RUN mkdir /usr/env && cd /usr/env && git clone https://github.com/gabriel-milan/atlas-env
+RUN cd /usr/env/atlas-env && ./generate_env.sh --pip --saphyra --root
+

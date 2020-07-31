@@ -3,6 +3,7 @@
 # Defining stuff
 VENV_NAME="atlas_env"
 CMAKE_VERSION="3.17.2"
+ROOT_VERSION="6.20.06"
 INITIAL_DIR=$(pwd)
 VENV_PATH="$INITIAL_DIR/$VENV_NAME"
 CPU_N=$(grep -c ^processor /proc/cpuinfo)
@@ -115,19 +116,19 @@ if [ "$INSTALL_ROOT" = true ] ; then
   wget https://github.com/Kitware/CMake/releases/download/v$CMAKE_VERSION/cmake-$CMAKE_VERSION-Linux-x86_64.sh -P /usr/
   chmod 755 /usr/cmake-$CMAKE_VERSION-Linux-x86_64.sh
   cd /usr && ./cmake-$CMAKE_VERSION-Linux-x86_64.sh --skip-license
-  cd $INITIAL_DIR && cd $VENV_NAME && wget https://root.cern/download/root_v6.22.00.source.tar.gz && tar xfv root_v6.22.00.source.tar.gz && rm root_v6.22.00.source.tar.gz
-  cd root-6.22.00/ && mkdir build
+  cd $INITIAL_DIR/$VENV_NAME && wget https://root.cern/download/root_v$ROOT_VERSION.source.tar.gz && tar xfv root_v$ROOT_VERSION.source.tar.gz && rm root_v$ROOT_VERSION.source.tar.gz
+  cd root-$ROOT_VERSION/ && mkdir build
   cd build/ && cmake -DPYTHON_EXECUTABLE=../../bin/python3 -Dpython3=ON -Dpython_version=3 ..
   make -j$CPU_N
   cd lib
   cp -r * ../../../lib/*/*/.
-  for file in $VENV_PATH/root-6.22.00/build/lib
+  for file in $VENV_PATH/root-$ROOT_VERSION/build/lib
   do
     ln -sf $file $VENV_PATH/lib/*/*/
   done
-  export ROOT_DIR=$VENV_PATH/root-6.22.00
-  source $VENV_PATH/root-6.22.00/build/bin/thisroot.sh
-  echo 'source $VENV_PATH/root-6.22.00/build/bin/thisroot.sh' >> ~/.bashrc
+  export ROOT_DIR=$VENV_PATH/root-$ROOT_VERSION
+  source $VENV_PATH/root-$ROOT_VERSION/build/bin/thisroot.sh
+  echo 'source $VENV_PATH/root-$ROOT_VERSION/build/bin/thisroot.sh' >> ~/.bashrc
   echo 'export ROOT_DIR=$VENV_PATH/root' >> ~/.bashrc
 fi
 
@@ -135,7 +136,7 @@ fi
 # Adding Prometheus
 if [ "$INSTALL_PROMETHEUS" = true ] ; then
   echo "--> Installing Prometheus..."
-  source $VENV_PATH/root-6.22.00/build/bin/thisroot.sh
+  source $VENV_PATH/root-$ROOT_VERSION/build/bin/thisroot.sh
   cd $VENV_PATH && git clone https://github.com/jodafons/prometheus.git
   cd $VENV_PATH/prometheus && source setup_module.sh
   cd $VENV_PATH/prometheus && source setup_module.sh --head
