@@ -2,14 +2,13 @@
 
 # Defining stuff
 VENV_NAME="atlas_env"
-CMAKE_VERSION="3.17.2"
+CMAKE_VERSION="3.18.1"
 ROOT_VERSION="6.20.06"
 INITIAL_DIR=$(pwd)
 VENV_PATH="$INITIAL_DIR/$VENV_NAME"
 CPU_N=$(grep -c ^processor /proc/cpuinfo)
 START=false
 INSTALL_PIP=false
-INSTALL_SAPHYRA=false
 INSTALL_ROOT=false
 INSTALL_PROMETHEUS=false
 
@@ -24,7 +23,6 @@ while test $# -gt 0; do
       echo "-h, --help                show this message"
       echo "--raw                     generates a raw virtual environment"
       echo "--pip                     installs pip packages on requirements.txt"
-      echo "--saphyra                 installs the Saphyra framework"
       echo "--root                    installs ROOT framework"
       echo "--prometheus              install the Prometheus framework"
       exit 0
@@ -39,12 +37,6 @@ while test $# -gt 0; do
       INSTALL_PIP=true
       shift
       ;;
-    --saphyra)
-      echo "--> Will install Saphyra"
-      START=true
-      INSTALL_SAPHYRA=true
-      shift
-      ;;
     --root)
       echo "--> Will install ROOT"
       START=true
@@ -55,12 +47,6 @@ while test $# -gt 0; do
       echo "--> Will install Prometheus"
       START=true
       INSTALL_PROMETHEUS=true
-      shift
-      ;;
-    --kolmov)
-      echo "--> Will install kolmov"
-      START=true
-      INSTALL_KOLMOV=true
       shift
       ;;
     *)
@@ -82,8 +68,6 @@ else
   echo "-h, --help                show this message"
   echo "--raw                     generates a raw virtual environment"
   echo "--pip                     installs pip packages on requirements.txt"
-  echo "--saphyra                 installs the Saphyra framework"
-  echo "--kolmov                  installs the Kolmov framework"
   echo "--root                    installs ROOT framework"
   echo "--prometheus              install the Prometheus framework"
   exit 0
@@ -92,20 +76,8 @@ fi
 # Installing PyPI packages
 if [ "$INSTALL_PIP" = true ] ; then
   echo "--> Installing pip packages..."
-  ./$VENV_NAME/bin/pip install -U pip
-  ./$VENV_NAME/bin/pip install -U -r requirements.txt
-fi
-
-# Adding saphyra
-if [ "$INSTALL_SAPHYRA" = true ] ; then
-  echo "--> Installing Saphyra..."
-  ./$VENV_NAME/bin/pip install -U saphyra
-fi
-
-# Adding kolmov
-if [ "$INSTALL_KOLMOV" = true ] ; then
-  echo "--> Installing Kolmov..."
-  ./$VENV_NAME/bin/pip install -U kolmov
+  ./$VENV_NAME/bin/python -m pip install -U pip
+  ./$VENV_NAME/bin/python -m pip install -U -r requirements.txt
 fi
 
 # Adding ROOT
@@ -122,14 +94,14 @@ if [ "$INSTALL_ROOT" = true ] ; then
   make -j$CPU_N
   cd lib
   cp -r * ../../../lib/*/*/.
-  for file in $VENV_PATH/root-$ROOT_VERSION/build/lib
+  for file in $VENV_PATH/root-$ROOT_VERSION/build/lib/*
   do
     ln -sf $file $VENV_PATH/lib/*/*/
   done
   export ROOT_DIR=$VENV_PATH/root-$ROOT_VERSION
-  source $VENV_PATH/root-$ROOT_VERSION/build/bin/thisroot.sh
-  echo 'source $VENV_PATH/root-$ROOT_VERSION/build/bin/thisroot.sh' >> ~/.bashrc
+  source $ROOT_DIR/build/bin/thisroot.sh
   echo 'export ROOT_DIR=$VENV_PATH/root' >> ~/.bashrc
+  echo 'source $ROOT_DIR/build/bin/thisroot.sh' >> ~/.bashrc
 fi
 
 
@@ -138,18 +110,16 @@ if [ "$INSTALL_PROMETHEUS" = true ] ; then
   echo "--> Installing Prometheus..."
   source $VENV_PATH/root-$ROOT_VERSION/build/bin/thisroot.sh
   cd $VENV_PATH && git clone https://github.com/jodafons/prometheus.git
-  cd $VENV_PATH/prometheus && source setup_module.sh
-  cd $VENV_PATH/prometheus && source setup_module.sh --head
   cd $VENV_PATH/prometheus && mkdir build
   cd $VENV_PATH/prometheus/build && cmake ..
-  cd $VENV_PATH/prometheus/build && make
+  cd $VENV_PATH/prometheus/build && make -j$CPU_N
   source $VENV_PATH/prometheus/setup.sh
   cp -r $VENV_PATH/prometheus/build/python/* $VENV_PATH/lib/*/*/.
-  for file in $VENV_PATH/prometheus/build/lib
+  for file in $VENV_PATH/prometheus/build/lib/*
   do
     ln -sf $file $VENV_PATH/lib/*/*/
   done
-  for file in $VENV_PATH/prometheus/build/python
+  for file in $VENV_PATH/prometheus/build/python/*
   do
     ln -sf $file $VENV_PATH/lib/*/*/
   done

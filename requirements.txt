@@ -21,3 +21,5 @@ ipykernel
 lofo-importance
 pyarrow
 kolmov
+saphyra
+soundfile
