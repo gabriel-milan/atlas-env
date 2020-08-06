@@ -123,4 +123,8 @@ if [ "$INSTALL_PROMETHEUS" = true ] ; then
   do
     ln -sf $file $VENV_PATH/lib/*/*/
   done
+  for file in $VENV_PATH/prometheus/scripts/*
+  do
+    ln -sf $file /usr/bin/*/*/
+  done
 fi
