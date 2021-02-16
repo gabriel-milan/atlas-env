@@ -2,7 +2,7 @@
 
 # Defining stuff
 VENV_NAME="atlas_env"
-CMAKE_VERSION="3.18.1"
+CMAKE_VERSION="3.19.5"
 ROOT_VERSION="6.20.06"
 INITIAL_DIR=$(pwd)
 VENV_PATH="$INITIAL_DIR/$VENV_NAME"
@@ -60,9 +60,9 @@ if [ "$START" = true ] ; then
   echo "--> Creating virtual environment..."
   virtualenv $VENV_NAME --python=python3
 else
-  echo "generate_envs.sh - Script for virtualenv generation for ATLAS/Ringer users"
+  echo "generate_env.sh - Script for virtualenv generation for ATLAS/Ringer users"
   echo " "
-  echo "./generate_envs.sh [options]"
+  echo "./generate_env.sh [options]"
   echo " "
   echo "options:"
   echo "-h, --help                show this message"

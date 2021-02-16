@@ -1,4 +1,4 @@
-scipy==1.4.1
+scipy
 joblib
 soundfile
 otools
@@ -10,7 +10,7 @@ spacy
 sklearn
 keras
 sqlalchemy
-numpy<1.19.0,>=1.16.0
+numpy
 psycopg2-binary
 benedict
 Theano

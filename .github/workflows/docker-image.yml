@@ -2,21 +2,19 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@master
-    - name: Build the base image
-      run: cd image/ && docker build --file Dockerfile.base --compress --no-cache -t lpsufrj/atlas-env:$(date '+%Y-%m-%d') . && docker build --file Dockerfile.base --compress -t lpsufrj/atlas-env:latest .
-    - name: Login to DockerHub
-      run: docker login -u ${{ secrets.DOCKER_LOGIN }} -p ${{ secrets.DOCKER_PASSWORD }}
-    - name: Push to DockerHub
-      run: docker push lpsufrj/atlas-env:$(date '+%Y-%m-%d') && docker push lpsufrj/atlas-env:latest
+      - uses: actions/checkout@master
+      - name: Build the base image
+        run: docker build --file Dockerfile --compress --no-cache -t ringeratlas/atlas-env:$(date '+%Y-%m-%d') . && docker build --file Dockerfile --compress -t ringeratlas/atlas-env:latest .
+      - name: Login to DockerHub
+        run: docker login -u ${{ secrets.DOCKER_LOGIN }} -p ${{ secrets.DOCKER_PASSWORD }}
+      - name: Push to DockerHub
+        run: docker push ringeratlas/atlas-env:$(date '+%Y-%m-%d') && docker push ringeratlas/atlas-env:latest

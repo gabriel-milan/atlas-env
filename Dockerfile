@@ -20,6 +20,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y python3 python3-p
 # ATLAS kernel
 RUN python3 -m pip install --upgrade pip
 RUN python3 -m pip install -U virtualenv
-RUN mkdir /usr/env && cd /usr/env && git clone https://github.com/gabriel-milan/atlas-env
+RUN mkdir -p /usr/env/atlas-env
+COPY . /usr/env/atlas-env
 RUN cd /usr/env/atlas-env && ./generate_env.sh --pip --root --prometheus
 
